@@ -9,4 +9,17 @@ module.exports = {
             ["Lotinchaga o'girish", "Kirillchaga o'girish"],
         ]).resize(),
     },
+    imlo: {
+        key: "Imloviy xatolar",
+        text: "Xatolikni tekshirish uchun matn yoki so'z yuboring:",
+        btns: Markup.keyboard([["🔙 Orqaga"]]).resize(),
+    },
+    back: {
+        key: "🔙 Orqaga",
+        text: "🔝 Asosiy menu",
+        btns: Markup.keyboard([
+            ["Imloviy xatolar", "Lug'at"],
+            ["Lotinchaga o'girish", "Kirillchaga o'girish"],
+        ]).resize(),
+    },
 };
