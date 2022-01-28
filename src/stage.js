@@ -10,32 +10,40 @@ const Imlo = new Scenes.WizardScene(
     },
     async (ctx) => {
         const text = ctx.message.text;
+        if (text.length > 2000) {
+            ctx.reply(
+                "Kiritilgan matndagi belgilar soni 2000tadan kam bo'lishi kerak"
+            );
+            return;
+        }
         if (text === locale.back.key) {
             ctx.reply(locale.back.text, locale.back.btns);
             return ctx.scene.leave();
         }
-        const checkedText = await util.spellingErrors(text);
-        if (!checkedText.errors) {
-            await ctx.reply("Hech qanday xato topilmadi");
-            return;
-        } else {
-            // await checkedText.data
-            let errors = "";
-            let count = 1;
-            for (const error of checkedText.data) {
-                errors += `<code>${count++}. ${
-                    error.word
-                } (o'xshash: ${error.suggestions.join(", ")})</code>\n`;
+        const response = await util.spellingErrors(text);
+        if (response.code === 200) {
+            const checkedText = await response.data;
+            if (!checkedText.errors) {
+                ctx.reply("Hech qanday xato topilmadi");
+                return;
+            } else {
+                let errors = "";
+                let count = 1;
+                for (const error of checkedText.data) {
+                    errors += `<code>${count++}. ${
+                        error.word
+                    } (o'xshash: ${error.suggestions.join(", ")})</code>\n`;
+                }
+                ctx.reply(
+                    `<b>${checkedText.data.length} ta xato so'z topildi.</b>\n\n<b>Bular:</b>\n${errors}`,
+                    { parse_mode: "HTML" }
+                );
+                return;
             }
-            await ctx.reply(
-                `<b>${checkedText.data.length} ta xato so'z topildi.</b>\n\n<b>Bular:</b>\n${errors}`,
-                { parse_mode: "HTML" }
-            );
-            console.log(checkedText);
+        } else {
+            ctx.reply(response.message);
             return;
         }
-
-        return ctx.scene.leave();
     }
 );
 
