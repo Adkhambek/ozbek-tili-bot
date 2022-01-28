@@ -1,6 +1,7 @@
 const { Telegraf } = require("telegraf");
 const { TOKEN } = require("./config");
 const bot = new Telegraf(TOKEN);
+const { start } = require("./locale");
 
 // Error Handling
 bot.catch((err, ctx) => {
@@ -10,7 +11,12 @@ bot.catch((err, ctx) => {
 
 // Public
 bot.start((ctx) => {
-    ctx.reply("Assalomu alekum");
+    const firstName = ctx.message.chat.first_name;
+    ctx.reply(start.text(firstName), {
+        parse_mode: "HTML",
+        disable_web_page_preview: true,
+        ...start.btns,
+    });
 });
 
 bot.on("text", async (ctx) => {
