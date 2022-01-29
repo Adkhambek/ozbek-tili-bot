@@ -28,4 +28,8 @@ bot.hears(locale.imlo.key, (ctx) => {
     ctx.scene.enter("IMLO");
 });
 
+bot.hears(locale.lotin.key, (ctx) => {
+    ctx.scene.enter("LOTIN");
+});
+
 module.exports = bot;

@@ -10,15 +10,15 @@ const Imlo = new Scenes.WizardScene(
     },
     async (ctx) => {
         const text = ctx.message.text;
+        if (text === locale.back.key) {
+            ctx.reply(locale.back.text, locale.back.btns);
+            return ctx.scene.leave();
+        }
         if (text.length > 2000) {
             ctx.reply(
                 "Kiritilgan matndagi belgilar soni 2000tadan kam bo'lishi kerak"
             );
             return;
-        }
-        if (text === locale.back.key) {
-            ctx.reply(locale.back.text, locale.back.btns);
-            return ctx.scene.leave();
         }
         const response = await util.spellingErrors(text);
         if (response.code === 200) {
@@ -47,4 +47,36 @@ const Imlo = new Scenes.WizardScene(
     }
 );
 
-module.exports = new Scenes.Stage([Imlo]);
+const Latin = new Scenes.WizardScene(
+    "LOTIN",
+    async (ctx) => {
+        ctx.reply(locale.lotin.text, locale.lotin.btns);
+        return ctx.wizard.next();
+    },
+    async (ctx) => {
+        const text = ctx.message.text;
+        if (text === locale.back.key) {
+            ctx.reply(locale.back.text, locale.back.btns);
+            return ctx.scene.leave();
+        }
+        if (text.length > 1000) {
+            ctx.reply(
+                "Kiritilgan matndagi belgilar soni 1000tadan kam bo'lishi kerak"
+            );
+            return;
+        }
+        const response = await util.toLatin(text);
+        if (response.code === 200) {
+            const latinText = await response.data;
+            ctx.reply(latinText, {
+                parse_mode: "HTML",
+            });
+            return;
+        } else {
+            ctx.reply(response.message);
+            return;
+        }
+    }
+);
+
+module.exports = new Scenes.Stage([Imlo, Latin]);
