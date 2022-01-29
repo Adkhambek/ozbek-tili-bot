@@ -8,6 +8,10 @@ Agar siz ham shu API dan foydalanmoqchi bo'lsangiz ushbu so'rovnomani to'ldirib 
 
 Matn.uz Telegram gruppasi: [@matnteam](https://t.me/matnteam)
 
+## Telegram bot
+
+[@ozbek_tili_bot](https://t.me/ozbek_tili_bot)
+
 ## O'rnatish
 
 ```
