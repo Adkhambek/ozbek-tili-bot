@@ -19,6 +19,11 @@ module.exports = {
         text: "Lotinchaga o'girish uchun matn yoki so'z yuboring:",
         btns: Markup.keyboard([["🔙 Orqaga"]]).resize(),
     },
+    cyrill: {
+        key: "Kirillchaga o'girish",
+        text: "Kirillchaga o'girish uchun matn yoki so'z yuboring:",
+        btns: Markup.keyboard([["🔙 Orqaga"]]).resize(),
+    },
     back: {
         key: "🔙 Orqaga",
         text: "🔝 Asosiy menu",

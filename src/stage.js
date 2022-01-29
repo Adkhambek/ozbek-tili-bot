@@ -16,7 +16,7 @@ const Imlo = new Scenes.WizardScene(
         }
         if (text.length > 2000) {
             ctx.reply(
-                "Kiritilgan matndagi belgilar soni 2000tadan kam bo'lishi kerak"
+                "Kiritilgan matndagi belgilar soni 2000 tadan kam bo'lishi kerak"
             );
             return;
         }
@@ -61,7 +61,7 @@ const Latin = new Scenes.WizardScene(
         }
         if (text.length > 1000) {
             ctx.reply(
-                "Kiritilgan matndagi belgilar soni 1000tadan kam bo'lishi kerak"
+                "Kiritilgan matndagi belgilar soni 1000 tadan kam bo'lishi kerak"
             );
             return;
         }
@@ -79,4 +79,36 @@ const Latin = new Scenes.WizardScene(
     }
 );
 
-module.exports = new Scenes.Stage([Imlo, Latin]);
+const Cyrill = new Scenes.WizardScene(
+    "CYRILL",
+    async (ctx) => {
+        ctx.reply(locale.cyrill.text, locale.cyrill.btns);
+        return ctx.wizard.next();
+    },
+    async (ctx) => {
+        const text = ctx.message.text;
+        if (text === locale.back.key) {
+            ctx.reply(locale.back.text, locale.back.btns);
+            return ctx.scene.leave();
+        }
+        if (text.length > 1000) {
+            ctx.reply(
+                "Kiritilgan matndagi belgilar soni 1000 tadan kam bo'lishi kerak"
+            );
+            return;
+        }
+        const response = await util.toCyrill(text);
+        if (response.code === 200) {
+            const latinText = await response.data;
+            ctx.reply(latinText, {
+                parse_mode: "HTML",
+            });
+            return;
+        } else {
+            ctx.reply(response.message);
+            return;
+        }
+    }
+);
+
+module.exports = new Scenes.Stage([Imlo, Latin, Cyrill]);

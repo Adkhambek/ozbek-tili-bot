@@ -32,4 +32,8 @@ bot.hears(locale.lotin.key, (ctx) => {
     ctx.scene.enter("LOTIN");
 });
 
+bot.hears(locale.cyrill.key, (ctx) => {
+    ctx.scene.enter("CYRILL");
+});
+
 module.exports = bot;
